@@ -1,149 +1,209 @@
 // 👑 إمبراطورية منصة موسى العظمى العالمية - نظام تشغيل عيادات الخليج السيادي (Mousa-OS)
-// المكون الأسطوري: نظام إدارة علاقات المراجعين، الجدولة التنبؤية، والحصانة الطبية والوقائية الشاملة
+// المكون: العقل الحاكم لإدارة علاقات المراجعين، محلل اللهجات الخليجية، والضمانات الرقمية والأمان الحيوي المعمق
 
-export interface ChronicConditions {
+export interface DeepMedicalMetrics {
   hasDiabetes: boolean;
-  hasHypertension: boolean;
-  isTakingBloodThinners: boolean; // أدوية سيولة الدم (حساسة جداً للجراحة والخلع)
-  allergies: string[];            // الحساسية من الأدوية أو البنج
+  hbA1cLevel?: number;           // معدل السكر التراكمي (حرج جداً لنجاح زراعة الأسنان)
+  isTakingBloodThinners: boolean; 
+  allergies: string[];            // حساسية البنج، البنسلين، أو اللاتكس
+  dentalAnxietyScore: 'Low' | 'Medium' | 'Severe-Phobia'; // قياس فوبيا كرسي الأسنان لتحديد أسلوب التعامل
+  boneDensityScore?: 'D1' | 'D2' | 'D3' | 'D4'; // جودة عظام الفك قبل بدء الجراحة والزراعة
 }
 
-export interface PatientComprehensiveProfile {
+export interface ImplantAndVeneerWarranty {
+  materialType: 'Emax-Veneer' | 'Zirconia-Crown' | 'Straumann-Implant' | 'Nobel-Biocare';
+  serialNumber: string;         // الرقم التسلسلي العالمي للقطعة المزروعة في فم المريض
+  manufacturingCountry: string; // بلد المنشأ (سويسرا، ألمانيا، أمريكا)
+  warrantyYears: number;
+  activationDate: Date;
+}
+
+export interface PatientBehavioralScore {
+  lifetimeValueSAR: number;      // إجمالي ما أنفقه المريض في شبكة العيادات بالريال/الدرهم
+  cancellationRate: number;     // نسبة إلغاء المواعيد المفاجئة
+  punctualityMinutes: number;   // متوسط دقائق التأخر عن الموعد
+  trustRating: 1 | 2 | 3 | 4 | 5; // تقييم العيادة لسلوك المريض التزامه بالخطة العلاجية
+}
+
+export interface MasterPatientProfile {
   patientId: string;
-  gulfNationalId: string;        // الهوية الوطنية الخليجية الموحدة الموثقة
+  gulfNationalId: string;       // الهوية الوطنية الخليجية الموحدة الموثقة عبر نفاذ أو UAE Pass
   fullName: string;
   phoneNumber: string;
-  birthDate: Date;
-  medicalRisks: ChronicConditions;
-  loyaltyTier: 'Platinum' | 'Gold' | 'Silver' | 'Standard';
-  historicalNoShows: number;     // سجل غيابات المريض السابقة بدون عذر
+  gulfDialect: 'Najdi' | 'Hijazi' | 'Emirati' | 'Kuwaiti' | 'Qatari' | 'Bahraini' | 'Omani' | 'Standard-Arabic'; // اللهجة الخليجية المفضلة للمراجع
+  clinicalMetrics: DeepMedicalMetrics;
+  warrantiesHanded: ImplantAndVeneerWarranty[];
+  behaviorScore: PatientBehavioralScore;
   lastVisitDate?: Date;
 }
 
-export interface AppointmentSlot {
+export interface HyperPredictiveSlot {
   appointmentId: string;
-  patient: PatientComprehensiveProfile;
+  patient: MasterPatientProfile;
   dentistId: string;
-  specialtyNeeded: 'Orthodontics' | 'Implants' | 'Endodontics' | 'Cosmetic' | 'General';
+  treatmentCategory: 'Surgery' | 'Orthodontics' | 'Cosmetic' | 'Endodontics';
   scheduledTime: Date;
-  status: 'Pending' | 'Confirmed' | 'Attended' | 'NoShow' | 'Cancelled';
-  aiNoShowProbability: number;   // نسبة غياب المريض المتوقعة برمجياً (من 0% إلى 100%)
-  automationActionRequired: string; // الإجراء الذكي التلقائي المطلوب من الاستقبال
+  status: 'Pending' | 'Confirmed' | 'Attended' | 'NoShow';
+  aiNoShowRiskPercentage: number; // حساب مخاطر غياب المريض برمجياً بدقة متناهية
+  smartActionPlan: string;        // خطة العمل التلقائية الموجهة لموظف الاستقبال لإنقاذ اليوم
 }
 
-export class MousaPatientAndCRMHub {
-  private patientRegistry: Map<string, PatientComprehensiveProfile> = new Map();
-  private appointmentLedger: AppointmentSlot[] = [];
+export class MousaUltimatePatientEngine {
+  private globalPatientRegistry: Map<string, MasterPatientProfile> = new Map();
+  private globalAppointmentLedger: HyperPredictiveSlot[] = [];
+
+  // 🤖 قاموس محرك الذكاء الاصطناعي لتحليل اللهجات الخليجية (Mousa Dialect AI Backend)
+  private dialectResponses = {
+    Najdi: {
+      welcome: "يا هلا والله ومسهلا فيك يا بعد حيي بمركزنا النخبوي. شلون سنونك الحين؟ عساك طيب؟",
+      followUp: "يا طويل العمر، تذكير بموعدك بكرة. تكفى لا تبطي علينا، الدكتور بانتظارك حياك الله."
+    },
+    Emirati: {
+      welcome: "مرحبا ملايين وسهلاً بك في مركزنا الغالي. عساك بخير وسهالة؟ طمنا عن عوار أسنانك؟",
+      followUp: "مرحبا الساع، نذكرك بموعدك يا خوي باجر في العيادة. حضورك يشرفنا ونرقب شوفك."
+    },
+    Kuwaiti: {
+      welcome: "حياك الله يا يبه وعزيز وغالي بمركزنا. عساك مرتاح؟ شلون عوار ضرسك الحين؟",
+      followUp: "قواك الله يا خوي، حابين نذكرك بموعدك باجر بالعيادة. لا تخلّينا ننطرك، ناطرينك على خير."
+    },
+    Hijazi: {
+      welcome: "أهلاً وسهلاً بيك يا سيدي، نورّت العيادة. كيف حال أسنانك دحين؟ إن شاء الله أهون؟",
+      followUp: "يا سيدي الكريم، تذكير بموعدك بكرة بالعيادة. الله يسعدك لا تتأخر علينا، المستشار بانتظارك."
+    },
+    Standard_Arabic: {
+      welcome: "مرحباً بك في مركزنا الطبي النخبوي الموحد. كيف يمكن لمنصة موسى العالمية خدمتك اليوم؟",
+      followUp: "عزيزنا المراجع، نود تذكيرك بموعدك الطبي غداً. يرجى الحضور قبل الموعد بـ 15 دقيقة."
+    }
+  };
 
   /**
-   * 👤 1. تسجيل وتوثيق المراجع الخليجي في السحاب وربطه بالملف الطبي الوقائي
+   * 👤 1. إنشاء وتدقيق ملف المراجع الأسطوري الشامل والتحقق الطبي الحرج وتحديد اللهجة
    */
-  public registerNewPatient(
+  public onboardComprehensivePatient(
     gulfId: string,
     name: string,
     phone: string,
-    birthStr: string,
-    conditions: ChronicConditions
-  ): PatientComprehensiveProfile {
+    dialect: MasterPatientProfile['gulfDialect'],
+    metrics: DeepMedicalMetrics,
+    behavior: PatientBehavioralScore
+  ): MasterPatientProfile {
     
-    const patientId = `MOUSA-PAT-${Math.floor(100000 + Math.random() * 900000)}`;
+    const patientId = `MOUSA-PATIENT-${Math.floor(1000000 + Math.random() * 9000000)}`;
     
-    const newPatient: PatientComprehensiveProfile = {
+    const newProfile: MasterPatientProfile = {
       patientId,
       gulfNationalId: gulfId,
       fullName: name,
       phoneNumber: phone,
-      birthDate: new Date(birthStr),
-      medicalRisks: conditions,
-      loyaltyTier: 'Standard',
-      historicalNoShows: 0
+      gulfDialect: dialect,
+      clinicalMetrics: metrics,
+      warrantiesHanded: [], 
+      behaviorScore: behavior
     };
 
-    this.patientRegistry.set(patientId, newPatient);
-    console.log(`[☁️ سجل موسى المركزي]: تم توثيق المراجع الموحد بنجاح برقم: ${patientId}`);
+    this.globalPatientRegistry.set(patientId, newProfile);
     
-    // فحص أمني فوري للأمراض الحساسة لتنبيه الطبيب قبل دخول العيادة
-    this.auditPatientMedicalSafety(newPatient);
+    // 🗣️ تشغيل بوت الاستقبال الترحيبي باللهجة المحلية فوراً
+    const dialectKey = (dialect === 'Najdi' || dialect === 'Emirati' || dialect === 'Kuwaiti' || dialect === 'Hijazi') ? dialect : 'Standard_Arabic';
+    console.log(`\n🤖 [Mousa Reception AI Bot]: ${this.dialectResponses[dialectKey].welcome}`);
+    console.log(`[☁️ مركز موسى السيادي]: تم توثيق وحقن السجل الشامل للمراجع: ${name} (رقم: ${patientId})`);
     
-    return newPatient;
+    // التدقيق الإكلينيكي المعمق والفوري لحماية حياة المريض والعيادة قانونياً
+    this.runDeepClinicalAudit(newProfile);
+    
+    return newProfile;
   }
 
   /**
-   * 🗓️ 2. محرك الجدولة التنبؤي الذكي: يحجز الموعد ويحلل احتمالية غياب المريض تلقائياً
+   * 💎 2. محرك تسجيل وإصدار ضمانات التركيبات والزرعات الرقمية الموحدة عابرة الحدود في الخليج
    */
-  public createPredictiveAppointment(
-    patient: PatientComprehensiveProfile, 
-    dentistId: string, 
-    specialty: AppointmentSlot['specialtyNeeded'], 
+  public issueDigitalWarranty(patientId: string, warranty: ImplantAndVeneerWarranty): void {
+    const patient = this.globalPatientRegistry.get(patientId);
+    if (!patient) return;
+
+    patient.warrantiesHanded.push(warranty);
+    console.log(`\n==================================================================`);
+    console.log(`👑 شهادة ضمان رقمية معتمدة من منصة موسى العظمى لطب الأسنان 👑`);
+    console.log(`==================================================================`);
+    console.log(`👤 اسم المريض: ${patient.fullName}`);
+    console.log(`🦷 نوع الإجراء والمادة: ${warranty.materialType}`);
+    console.log(`🔢 الرقم التسلسلي العالمي (Serial): ${warranty.serialNumber}`);
+    console.log(`🇩🇪 بلد التصنيع المصدر: ${warranty.manufacturingCountry}`);
+    console.log(`🛡️ مدة الضمان الموثقة في السحاب: ${warranty.warrantyYears} سنوات من تاريخ التفعيل.`);
+    console.log(`------------------------------------------------------------------`);
+  }
+
+  /**
+   * 🗓️ 3. مصفوفة الجدولة فائقة التنبؤ: تحلل الأبعاد الطبية والجغرافية والسلوكية للمراجع وتمنع تسربه
+   */
+  public scheduleHyperPredictiveAppointment(
+    patient: MasterPatientProfile,
+    dentistId: string,
+    category: HyperPredictiveSlot['treatmentCategory'],
     timeStr: string
-  ): AppointmentSlot {
+  ): HyperPredictiveSlot {
     
-    let probability = 10; // النسبة الافتراضية للغياب 10% للمرضى الملتزمين
-    let action = "تذكير تلقائي تقليدي قبل الموعد بـ 24 ساعة (SMS/WhatsApp).";
+    let riskScore = 10; // نسبة مخاطرة افتراضية منخفضة 10%
+    
+    const dialectKey = (patient.gulfDialect === 'Najdi' || patient.gulfDialect === 'Emirati' || patient.gulfDialect === 'Kuwaiti' || patient.gulfDialect === 'Hijazi') ? patient.gulfDialect : 'Standard_Arabic';
+    let actionPlan = `🤖 [بوت الواتساب التلقائي]: إرسال رسالة التذكير باللهجة المحلية: "${this.dialectResponses[dialectKey].followUp}"`;
 
-    // خوارزمية ذكية تفحص سجل المريض وسلوكه لحماية وقت العيادة من الضياع
-    if (patient.historicalNoShows >= 3) {
-      probability = 85;
-      action = "🚨 خطورة حرجة! فتح حجز موازٍ (Overbooking) وتفعيل الدفع المسبق لتأكيد الموعد.";
-    } else if (patient.historicalNoShows > 0) {
-      probability = 45;
-      action = "⚠️ خطورة متوسطة! تطلب مكالمة تأكيد بشرية إلزامية من موظف الاستقبال قبل الموعد بـ 12 ساعة.";
+    // أولاً: فحص السلوك المالي والالتزام
+    if (patient.behaviorScore.cancellationRate > 0.40 || patient.behaviorScore.trustRating <= 2) {
+      riskScore += 40;
     }
 
-    // رفع نسبة المخاطرة إذا كان التخصص معقداً ويستهلك وقتاً طويلاً بالعيادة كالزراعة
-    if (specialty === 'Implants' && probability < 50) {
-      probability += 15;
+    // ثانياً: فحص عامل الخوف والفوبيا (المرضى الذين يملكون فوبيا حادة يهربون في يوم الموعد)
+    if (patient.clinicalMetrics.dentalAnxietyScore === 'Severe-Phobia') {
+      riskScore += 25;
+      actionPlan = `🧠 المريض يعاني من فوبيا حادة! إرسال رسالة طمأنينة متخصصة بلهجة [${patient.gulfDialect}]، وتوجيه الطبيب بتحضير الغاز الضاحك وتخصيص 15 دقيقة إضافية للاستماع للمريض.`;
     }
 
-    const appointment: AppointmentSlot = {
-      appointmentId: `APT-${Math.floor(10000 + Math.random() * 90000)}`,
+    // ثالثاً: حماية الحالات الجراحية الكبرى من تضيع وقت العيادة (كالزراعة جراحة الوجه والفكين)
+    if (category === 'Surgery' && riskScore >= 40) {
+      riskScore += 10;
+      actionPlan = "🚨 خطورة جراحية حرجة! فتح حجز موازٍ فوري (Double-Booking) وتفعيل نظام الدفع المسبق لرسوم غرفة العمليات قبل الموعد.";
+    }
+
+    const appointment: HyperPredictiveSlot = {
+      appointmentId: `APT-${Math.floor(100000 + Math.random() * 900000)}`,
       patient,
       dentistId,
-      specialtyNeeded: specialty,
+      treatmentCategory: category,
       scheduledTime: new Date(timeStr),
       status: 'Pending',
-      aiNoShowProbability: probability,
-      automationActionRequired: action
+      aiNoShowRiskPercentage: riskScore,
+      smartActionPlan: actionPlan
     };
 
-    this.appointmentLedger.push(appointment);
+    this.globalAppointmentLedger.push(appointment);
+    this.printAppointmentDashboard(appointment);
     return appointment;
   }
 
   /**
-   * 🎯 3. محرك الاستبقاء والتسويق الوقائي الآلي (Proactive CRM Core)
-   * استدعاء تلقائي للمرضى الذين مر على آخر زيارة لهم أكثر من 6 أشهر لمنع خسارتهم وضمان التدفق المالي لقسم تنظيف الأسنان والوقاية
+   * 🛡️ التدقيق الإكلينيكي المعمق لحماية المريض والعيادة قانونياً وصحياً
    */
-  public triggerProactiveRecallCampaigns(): void {
-    console.log(`\n==================================================================`);
-    console.log(`📢 حملات استبقاء مراجعي الأسنان التلقائية - منصة موسى الذكية 🚀`);
-    console.log(`==================================================================`);
-    
-    const sixMonthsAgo = new Date();
-    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
-
-    this.patientRegistry.forEach(patient => {
-      // محاكاة استدعاء تلقائي للمرضى بناءً على آخر زيارة أو نوع الولاء
-      if (!patient.lastVisitDate || patient.lastVisitDate < sixMonthsAgo) {
-        console.log(`📍 إرسال عرض الفحص الوقائي الدوري المجاني للمراجع: [${patient.fullName}] - هاتف: ${patient.phoneNumber}`);
-        console.log(`✉️ نص الرسالة الذكية: "مرحباً بك في عيادتنا النخبوية، مرت 6 أشهر على آخر فحص لسلامة لثتك، احجز موعدك الوقائي الفوري الآن عبر منصة موسى."`);
-        console.log(`------------------------------------------------------------------`);
-      }
-    });
+  private runDeepClinicalAudit(patient: MasterPatientProfile): void {
+    const metrics = patient.clinicalMetrics;
+    if (metrics.hasDiabetes && metrics.hbA1cLevel && metrics.hbA1cLevel > 7.5) {
+      console.log(`[🚨 خطر إكلينيكي حرج]: المراجع (${patient.fullName}) معدل السكر التراكمي لديه مرتفع [${metrics.hbA1cLevel}]. يحظر إجراء أي عمليات زراعة أسنان أو جراحة لثة قبل انخفاض المعدل لضمان التئام العظام وعدم فشل العملية.`);
+    }
+    if (metrics.boneDensityScore === 'D4') {
+      console.log(`[🚨 تنبيه جراحي]: المراجع لديه كثافة عظام فك من فئة D4 (عظام ناعمة جداً). يجب استخدام زرعات مخصصة ذات ثبات أولي عالي وتأخير وقت تحميل التركيبات.`);
+    }
+    console.log(`------------------------------------------------------------------`);
   }
 
   /**
-   * 🛡️ وحدة التدقيق الطبي والأمان الحيوي للمراجع
+   * 📊 لوحة تحكم ومراقبة المواعيد الذكية للاستقبال داخل المنصة
    */
-  private auditPatientMedicalSafety(patient: PatientComprehensiveProfile): void {
-    const risks = patient.medicalRisks;
-    if (risks.isTakingBloodThinners || risks.hasDiabetes || risks.allergies.length > 0) {
-      console.log(`[🚨 تنبيه أمني عيادي خطير للمريض: ${patient.fullName}]:`);
-      if (risks.isTakingBloodThinners) console.log(` - ⚠ تنبيه: المريض يتناول أدوية سيولة دم! يمنع إجراء جراحة أو خلع دون موافقة طبيبه الباطني.`);
-      if (risks.hasDiabetes) console.log(` - ⚠ تنبيه: المريض يعاني من السكري! يجب قياس معدل السكر التراكمي قبل معالجة اللثة أو الزراعة.`);
-      if (risks.allergies.length > 0) console.log(` - ⚠ تنبيه: يوجد حساسية مسجلة من المواد التالية: [${risks.allergies.join(', ')}].`);
-      console.log(`------------------------------------------------------------------`);
-    }
+  private printAppointmentDashboard(slot: HyperPredictiveSlot): void {
+    console.log(`📍 حجز موعد رقم: ${slot.appointmentId} | قسم: [${slot.treatmentCategory}]`);
+    console.log(`👤 المراجع: ${slot.patient.fullName} | هاتف: ${slot.patient.phoneNumber}`);
+    console.log(`⚠️ مؤشر AI لمخاطر غياب المراجع: [ ${slot.aiNoShowRiskPercentage}% ]`);
+    console.log(`⚙️ خطة العمل الذكية المؤتمتة: ${slot.smartActionPlan}`);
+    console.log(`==================================================================`);
   }
-      }
-        
+    }
+  

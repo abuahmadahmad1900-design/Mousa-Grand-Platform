@@ -19,7 +19,7 @@ export class MousaMaestroOrchestrator {
   private subAgentsRegistry: Map<string, AIAgentConfig> = new Map();
 
   constructor(databaseUrl: string) {
-    // تلقيم العقل الحاكم برابط قاعدة البيانات الحية المستخرجة من Render
+    // تلقيم العقل الحاكم برابط قاعدة البيانات الحية الموثقة والمحدثة من Render
     this.databaseConnectionString = databaseUrl;
     console.log(`[🔐 العقل الحاكم - المايسترو]: تم الربط والتحصين بقاعدة البيانات السحابية الحية بنجاح.`);
     
@@ -111,9 +111,8 @@ export class MousaMaestroOrchestrator {
   }
 }
 
-// 🔥 تشغيل المحاكاة الفورية لربط العقل الحاكم بقاعدة البيانات الفعلية
-// (ملاحظة: يتم استبدال الرابط أدناه برابط الـ External Database URL المنسوخ من حسابك)
-const renderDatabaseUrl = "postgres://mousa_admin:secret_string@://render.com";
+// 🔥 تشغيل المحرك بقوة وتلقيمه بالمفتاح الحقيقي والسيادي للربط المباشر
+const renderDatabaseUrl = "postgresql://mousa_admin:v3XU6GhAsIFyBhOgZIUTgUKchd8xOnoI@dpg-da5v0dgjo6nc73dqe9h0-a/mousadb";
 const masterMaestro = new MousaMaestroOrchestrator(renderDatabaseUrl);
 
 // محاكاة معالجة عملية مالية ضخمة واستدعاء البوتات المحاسبية تلقائياً لتوثيقها بالقاعدة
@@ -122,4 +121,3 @@ masterMaestro.handleGlobalSystemInquiry({
   payloadText: "جاري إغلاق فواتير اليوم وحساب صافي أرباح عيادات الرياض ودبي والامتثال الضريبي",
   originCountry: "KSA"
 });
-        

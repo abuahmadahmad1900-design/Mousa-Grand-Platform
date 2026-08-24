@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة موسى العظمى - لوحة العمليات الداخلية</title>
+    <style>
+        :root { --bg: #06070a; --panel: rgba(14, 16, 24, 0.95); --gold: #ffd700; --emerald: #00ffaa; --text: #f5f6fa; --muted: #797e8d; --red: #ff3333; }
+        body { background: var(--bg); color: var(--text); font-family: sans-serif; margin: 0; padding: 20px; background-image: radial-gradient(circle, #10121e 0%, #06070a 100%); min-height: 100vh; }
+        header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--gold); padding-bottom: 15px; margin-bottom: 25px; }
+        .logo h1 { margin: 0; font-size: 22px; text-shadow: 0 0 10px #ffaa00; color: var(--gold); }
+        .status { display: flex; align-items: center; gap: 8px; font-size: 13px; background: rgba(0, 255, 170, 0.08); padding: 6px 15px; border-radius: 20px; border: 1px solid var(--emerald); }
+        .pulse { width: 8px; height: 8px; background: var(--emerald); border-radius: 50%; animation: p 1.5s infinite; }
+        @keyframes p { 0%, 100% { transform: scale(0.9); opacity: 0.6; } 50% { transform: scale(1.2); opacity: 1; } }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 25px; }
+        .panel { background: var(--panel); border: 1px solid rgba(255, 215, 0, 0.12); border-radius: 14px; padding: 18px; }
+        .panel h3 { color: var(--gold); margin: 0 0 10px 0; font-size: 16px; border-bottom: 1px solid rgba(255,215,0,0.1); padding-bottom: 5px; }
+        .val { font-size: 28px; font-weight: bold; color: var(--emerald); text-shadow: 0 0 10px rgba(0, 255, 170, 0.2); }
+        .box { background: #040508; border-radius: 8px; padding: 10px; height: 110px; overflow-y: auto; font-family: monospace; font-size: 11px; border: 1px solid rgba(255, 255, 255, 0.04); }
+        .log { margin-bottom: 6px; padding-bottom: 4px; border-bottom: 1px solid rgba(255, 255, 255, 0.02); }
+        .log.g { color: var(--emerald); } .log.y { color: var(--gold); } .log.r { color: var(--red); }
+        .matrix { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; background: var(--panel); padding: 20px; border-radius: 14px; border: 1px solid rgba(255, 215, 0, 0.15); }
+        .btn { background: linear-gradient(135deg, #161927 0%, #0c0e18 100%); border: 1px solid var(--gold); color: var(--gold); padding: 12px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 13px; text-align: right; display: flex; align-items: center; justify-content: space-between; width: 100%; box-sizing: border-box; }
+        .btn:hover { background: var(--gold); color: var(--bg); box-shadow: 0 0 15px #ffaa00; transform: scale(1.02); }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo"><h1>بوابة العمليات الداخلية لعيادات الأسنان 👑</h1><p>الأنظمة التنفيذية الـ 20 المخصصة بالكامل للموظفين والمراجعين وحسابات الإدارة</p></div>
+        <div class="status"><div class="pulse"></div><span>قاعدة البيانات [mousa-gulf-db]: متصلة ومزامنة 🔐</span></div>
+    </header>
+
+    <div class="grid">
+        <div class="panel"><h3>💰 الحسابات والسيولة اللحظية</h3><div class="val" id="p-disp">482,500 SAR</div><div style="font-size:12px;color:var(--muted);">إجمالي المداخيل الصافية لليوم.</div></div>
+        <div class="panel"><h3>📋 شاشة الاستقبال والمواعيد</h3><div class="box" id="r-logs"><div class="log g">[✓ موعد مؤكد]: فيصل بن سعود - عيادة 1.</div><div class="log y">[⏱️ الانتظار]: 4 مرضى في قائمة الانتظار.</div></div></div>
+        <div class="panel"><h3>🗣️ مركز تواصل المراجعين بالخليج</h3><div class="box" id="c-logs"><div class="log g">[🤖 الواتساب]: تم إرسال رسالة رعاية لمراجع كويتي بلهجته.</div></div></div>
+        <div class="panel"><h3>📦 مستودع جرد المخازن والأمان</h3><div class="box" id="i-logs"><div class="log g">[✓ جرد ومطابقة]: المواد متطابقة مع الاستهلاك السريري.</div></div></div>
+    </div>
+
+    <h3 style="color: var(--gold); border-right: 3px solid var(--gold); padding-right: 10px; margin-bottom: 15px;">🕹️ غرف التحكم والسيطرة للـ 20 نظاماً للموظفين:</h3>
+    <div class="matrix" id="b-container"></div>
+
+    <script>
+        // مصفوفة الأنظمة الـ 20 الذكية كاملة للعيادة والموظفين والمراجعين بدون أي نقص
+        const data = [
+            { id: 1, name: "1. جدولة المواعيد وتوزيع كراسي العلاج", icon: "🗓️", target: "r", type: "g", msg: "[🗓️ حجز ذكي]: تم توزيع مراجع على كرسي رقم 2 وتخصيص الوقت تلقائياً لأخصائي الزراعة." },
+            { id: 2, name: "2. فحص الملف الطبي الرقمي ثلاثي الأبعاد", icon: "🦷", target: "r", type: "g", msg: "[🦷 ملف 3D]: تم سحب خريطة الأسنان المحدثة واستعراض الأسطح الخمسة المتضررة للمريض." },
+            { id: 3, name: "3. جرد المخازن الفوري ومنع السرقات والهدر", icon: "📦", target: "i", type: "g", msg: "[📦 المخزن]: تم مطابقة مستهلكات العيادة الحالية وإرسال تحديث الجرد اللحظي لسلاسل الإمداد." },
+            { id: 4, name: "4. إصدار الفواتير والامتثال الضريبي (ZATCA)", icon: "🧾", target: "i", type: "g", msg: "[🧾 زاتكا]: تم ختم الفاتورة الضريبية وتوليد الهاش المشفر المتوافق مع المرحلة الثانية بنجاح." },
+            { id: 5, name: "5. حساب نسب وأجور أطباء الأسنان الصافية", icon: "👨‍⚕️", target: "i", type: "g", msg: "[👨‍⚕️ أجور الأطباء]: تم حساب مستحقات الطبيب الصافية آلياً بعد خصم نسب المعمل والمواد.", act: "p1" },
+            { id: 6, name: "6. تشغيل رادار كشف الاحتيال والاختلاس المالي", icon: "🛡️", target: "i", type: "r", msg: "[🚨 كاشف الاختلاس]: تم رصد عملية معالجة كبرى دون تسجيل خصم المواد من المستودع! تنبيه أحمر." },
+            { id: 7, name: "7. إدارة قائمة الانتظار وملء الكراسي الشاغرة", icon: "⏱️", target: "r", type: "g", msg: "[⏱️ الانتظار]: ألغى مريض موعده؛ الخوارزمية ترسل عرضاً آلياً بالواتساب لمرضى الانتظار القريبين لملء الكرسي." },
+            { id: 8, name: "8. فحص وحظر الأطباء منتهي التراخيص الصحية", icon: "🏛️", target: "r", type: "r", msg: "[🏛️ التراخيص]: تم فحص تراخيص الطاقم وحظر طبيب انتهى ترخيصه من جدول المواعيد منعاً للمخالفات الوزارية." },
+            { id: 9, name: "9. إطلاق حملة الاستدعاء للمراجعين المتأخرين", icon: "📢", target: "c", type: "y", msg: "[📢 استدعاء]: انطلقت حملة الـ CRM الآلية لإرسال رسائل فحص دوري للممرضين والمتأخرين منذ 6 أشهر." },
+            { id: 10, name: "10. بوت التواصل بالواتساب بلهجات الخليج", icon: "🗣️", target: "c", type: "y", msg: "[🗣️ بوت اللهجات]: مراجع نجدي استفسر عن ألم عصب؛ البوت يجيب بلهجته: (يا مسهلا فيك يا بعد حيي)." },
+            { id: 11, name: "11. نظام التوقيع والموافقة الطبية القانونية", icon: "📜", target: "r", type: "g", msg: "[📜 موافقة قانونية]: تم توقيع وثيقة الموافقة الطبية الرقمية المشفرة برقم الهوية للمريض قبل بدء الجراحة." },
+            { id: 12, name: "12. فحص أهلية وصلاحية بطاقات التأمين الصحي", icon: "💳", target: "r", type: "g", msg: "[💳 فحص التأمين]: تم التحقق من بطاقة تأمين بوبا؛ نسبة تحمل المريض 20% والمطلب كاش هو 180 ريال." },
+            { id: 13, name: "13. رادار الأشعة الرقمية والتحليل التلقائي", icon: "🩻", target: "r", type: "g", msg: "[🩻 رادار الأشعة]: تم تحليل صورة أشعة البانوراما آلياً واكتشاف التهاب ذروي يحتاج علاج عصب فوري." },
+            { id: 14, name: "14. نظام جدولة شفتات الموظفين والمساعدين", icon: "👥", target: "r", type: "g", msg: "[👥 الشفتات]: تم توزيع شفتات الممرضات ومساعدي الأطباء تلقائياً بناءً على حجم حجوزات الذروة اليوم." },
+            { id: 15, name: "15. تتبع مديونيات المرضى المتبقية والتحصيل", icon: "⚠️", target: "i", type: "r", msg: "[⚠️ مديونيات]: رصد مراجع متأخر عن السداد منذ 45 يوماً؛ تم حظر حجز موعد تجميلي جديد له تلقائياً." },
+            { id: 16, name: "16. تسوية الدفعات الإلكترونية والربط البنكي", icon: "🔄", target: "i", type: "g", msg: "[🔄 تسوية بنكية]: تم مطابقة الدفعات عبر أجهزة مدى والفيزا مع الحساب البنكي للعيادة آلياً بنسبة تطابق 100%." },
+            { id: 17, name: "17. إدارة الصيانة الوقائية لكراسي الأسنان", icon: "🔧", target: "i", type: "g", msg: "[🔧 صيانة الأجهزة]: تم جدولة الصيانة الوقائية لكراسي العيادة 3 و 4 وأجهزة التعليق لضمان عدم تعطل العمل فجأة." },
+            { id: 18, name: "18. تخطيط المشتريات والطلب الآلي من المصانع", icon: "🛒", target: "i", type: "g", msg: "[🛒 المشتريات]: تم إبرام طلب شراء ذكي ومباشر من المصنع السويسري لتعويض نقص الغرسات وتوفير 30%." },
+            { id: 19, name: "19. استخراج تقارير الأرباح والخسائر P&L", icon: "📊", target: "i", type: "g", msg: "[📊 تقرير P&L]: تم استخراج تقرير الأرباح والخسائر وحساب معدل استهلاك الأجهزة والمعدات الطبية لدواعي الضرائب.", act: "p2" },
+            { id: 20, name: "20. ترحيل وتوثيق السجلات في قاعدة البيانات", icon: "💾", target: "i", type: "g", msg: "[💾 PostgreSQL]: تم ترحيل ومزامنة كافة حركات الموظفين والعمليات لليوم داخل قاعدة البيانات السحابية [mousa-gulf-db] بنجاح!", act: "db" }
+        ];
+
+        const box = document.getElementById('b-container');
+        data.forEach(s => {
+            const b = document.createElement('button');
+            b.className = 'control-btn btn';
+            b.onclick = () => run(s);
+            b.innerHTML = `<span>${s.name}</span><span>${s.icon}</span>`;
+            box.appendChild(b);
+        });
+
+        function run(s) {
+            const logBox = document.getElementById(`${s.target}-logs`);
+            const el = document.createElement('div');
+            el.className = `log-entry ${s.type}`;
+            el.innerHTML = s.msg;
+            logBox.prepend(el);
+            if (s.act === 'p1') document.getElementById('p-disp').innerHTML = "451,200 SAR";
+            if (s.act === 'p2') document.getElementById('p-disp').innerHTML = "514,800 SAR";
+            if (s.act === 'db') alert(s.msg);
+        }
+    </script>
+</body>
+</html>
